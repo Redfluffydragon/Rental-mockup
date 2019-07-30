@@ -1,0 +1,86 @@
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: rgb(200, 200, 200);
+  border-radius: 4px;
+  font-size: 24px;
+}
+
+.bikediv {
+  margin: 0;
+  margin-top: 4px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 4px;
+  display: inline-block;
+  width: 30vw;
+  min-height: 30vw;
+  height: auto;
+  vertical-align: top;
+}
+
+.bikeimg {
+  display: block;
+  max-width: 28vw;
+  margin: auto;
+  /* max-height: 20vw; */
+}
+
+.bikebuttons {
+  width: 120px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 4px;
+  margin: auto;
+  text-align: center;
+}
+
+.plusbtn {
+  float: right;
+  background: #007bff;
+}
+
+.minbtn {
+  float: left;
+  background: #dc3545;
+}
+
+.bikenum {
+  position: relative;
+  font-size: 24px;
+  margin: 8px;
+  width: 24px;
+}
+
+#dyodofig {
+  margin: 0;
+  overflow: hidden;
+}
+
+#dyodoimg {
+  margin-top: -5vw;
+  margin-bottom: -6vw;
+}
+
+#nextbtn {
+  position: fixed;
+  bottom: 5vh;
+  width: 100px;
+  padding: 6px;
+  right: 5vh;
+}
+
+@media screen and (max-width: 500px) {
+  .bikeimg { 
+    max-width: 85vw;
+    margin-left: 2vw;
+  }
+  .bikediv {
+    display: block;
+    width: 90vw
+  }
+}
