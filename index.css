@@ -166,12 +166,13 @@ select {
 
 #nextbtn {
   position: fixed;
-  bottom: 5vh;
+  bottom: 4vh;
   width: 100px;
   padding: 6px;
   right: 5vh;
   background: #007bff;
   color: #eeeeee;
+  font-size: 1.5em;
 }
 
 #backbtn {
@@ -204,6 +205,12 @@ select {
     display: block;
     width: 90vw;
     margin: 4px auto;
+  }
+}
+
+@media screen and (max-width: 411px) {
+  #nextbtn {
+    bottom: 6vh;
   }
 }
 
