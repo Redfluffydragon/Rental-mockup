@@ -1,3 +1,14 @@
+/**
+ * Add unable to progress without required elements
+ * Don't reset rider info cards every time you navigate to the info screen
+ * add date selection
+ * add prices and half-day option
+ * add height option for sizing
+ * add helmet option
+ * link to big ring site? or support?
+ * make sure next/back buttons don't get in the way in mobile
+ */
+
 const plusbtns = document.getElementsByClassName('plusbtn');
 const bikenums = document.getElementsByClassName('bikenum');
 const backbtn = document.getElementById('backbtn');
@@ -92,7 +103,6 @@ function selectedBikeCards() {
   for (let i in bikesList) {
     for (let j = 0; j < selectedBikes[bikesList[i]]; j++) {
       let getTemp = document.getElementById(bikesList[i] + 'Template');
-      console.log(getTemp);
       let dupe = getTemp.content.cloneNode(true);
       bikeCards.appendChild(dupe);
     }
