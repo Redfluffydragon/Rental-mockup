@@ -6,9 +6,12 @@ const bikePage = document.getElementById('bikePage');
 const infoPage = document.getElementById('infoPage');
 const payPage = document.getElementById('payPage');
 
+const bikeCards = document.getElementById('bikeCards');
+
 const curMonth = document.getElementById('curMonth');
 const nextMonth = document.getElementById('nextMonth');
 let page = 0;
+let firstTime = true; //? maybe ?
 const pages = [bikePage, infoPage, payPage];
 
 let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -29,7 +32,6 @@ function checkLeapYear(year) {
   return false;
 }
 
-//habit, synapse, venezia, dyodo, f10
 let selectedBikes = {
   habit: 0,
   synapse: 0,
@@ -79,19 +81,39 @@ function newPage() {
     pages[i].classList.add('none');
   }
   pages[page].classList.remove('none');
+  if (pages[page] === infoPage) {
+    selectedBikeCards();
+  }
+}
+
+function selectedBikeCards() {
+  bikeCards.innerHTML = ''; //figure out a better solution. Matching?
+  let bikesList = Object.keys(selectedBikes);
+  for (let i in bikesList) {
+    for (let j = 0; j < selectedBikes[bikesList[i]]; j++) {
+      let getTemp = document.getElementById(bikesList[i] + 'Template');
+      console.log(getTemp);
+      let dupe = getTemp.content.cloneNode(true);
+      bikeCards.appendChild(dupe);
+    }
+  }
 }
 
 document.addEventListener('click', e => {
   if (e.target.matches('.plusbtn')) {
       let currnum = e.target.parentNode.getElementsByClassName('bikenum')[0];
       currnum.textContent++;
+      let bikename = e.target.closest('.bikediv').id;
+      selectedBikes[bikename]++;
   }
   else if (e.target.matches('.minbtn')) {
     let currnum = e.target.parentNode.getElementsByClassName('bikenum')[0];
     if (currnum.textContent > 0) currnum.textContent--;
+    let bikename = e.target.closest('.bikediv').id;
+      selectedBikes[bikename]--;
   }
   else if (e.target.matches('#nextbtn')) {
-    scroll(0, 0);
+    scroll(0, 0); //scroll to the top - only needed because I'm doing this on a single url
     if (page < pages.length-1) page++;
     if (page > 0) {
       backbtn.classList.remove('none');
@@ -101,9 +123,7 @@ document.addEventListener('click', e => {
   else if (e.target.matches('#backbtn')) {
     scroll(0, 0);
     page--;
-    if (page === 0) {
-      backbtn.classList.add('none');
-    }
+    if (page === 0) backbtn.classList.add('none');
     newPage();
   }
 }, false);

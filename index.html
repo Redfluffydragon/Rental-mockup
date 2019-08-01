@@ -12,7 +12,7 @@
     </div>
     <br><br><br>
     <div id="bikePage">
-      <div id="habit5" class="bikediv">
+      <div id="habit" class="bikediv">
         <img class="bikeimg" src="https://www.cannondale.com/~/media/Images/Dorel/Products/Bikes/C23509M/Variants/C23509M10LG/images/frfhxyk0ghuv2byb8dqx.ashx?mw=1000">
         <h4>Cannondale Habit 5</h4>
         <p>Cannondale's all-rounder trail bike. 29 inch wheels, 130 mm of travel, and balanced geometry make for a super fun ride no matter the trail.</p>
@@ -22,7 +22,7 @@
             <button class="plusbtn">+</button>
         </div>
       </div>
-      <div id="synapse105" class="bikediv">
+      <div id="synapse" class="bikediv">
         <img class="bikeimg" src="https://www.cannondale.com/~/media/Images/Dorel/Products/Bikes/C12339M/Variants/C12339M3044/images/qz8dt7jld5ljkbunmoqd.ashx?mw=1000">
         <h4>Synapse 105 Disc</h4>
         <p>Cannondale's endurance road bike. Relaxed geometry and wider 30c tires make for a comfortable ride.</p>
@@ -67,7 +67,8 @@
     </div>
     <div id="infoPage" class="none">
       <p>Please fill out as much information as accurately as you can so we can have your bike ready for you when you arrive.</p>
-      <!-- <template id="habitTemplate"> -->
+      <div id="bikeCards"></div>
+      <template id="habitTemplate">
         <div class="oneRider">
           <span class="riderBikeName">Cannondale Habit 5</span>
           <br>
@@ -102,7 +103,8 @@
           <br>
           <label>Seat height (optional): <input> (please include units)</label>
         </div>
-      <!-- </template> -->
+      </template>
+      <template id="synapseTemplate">
         <div class="oneRider">
           <span class="riderBikeName">Cannondale Synapse</span>
           <br>
@@ -137,7 +139,9 @@
           <br>
           <label>Seat height (optional): <input> (please include units)</label>
       </div>
-      <div class="oneRider">
+      </template>
+      <template id="veneziaTemplate">
+        <div class="oneRider">
           <span class="riderBikeName">Bianchi Venezia</span>
           <br>
           <br>
@@ -166,6 +170,8 @@
           <br>
           <label>Seat height (optional): <input> (please include units)</label>
         </div>
+      </template>
+      <template id="dyodoTemplate">
         <div class="oneRider">
           <span class="riderBikeName">Pinarello Dyodo</span>
           <br>
@@ -198,45 +204,67 @@
           <br>
           <label>Seat height (optional): <input> (please include units)</label>
         </div>
+      </template>
+      <template id="f10Template">
         <div class="oneRider">
-            <span class="riderBikeName">Pinarello F10 Disc</span>
-            <br>
-            <br>
-            <label>Rider name: <input></label>
-            <br>
-            <br>
-            <label>Select size</label>
-            <select>
-              <option>?</option>
-              <option selected>??</option>
-              <option>???</option>
-              <option>????</option>
-            </select>
-            <a href="#">Size chart</a>
-            <br>
-            <br>
-            <label>Select pedals: </label>
-            <select>
-              <option>Flat pedals</option>
-              <option>SPD</option>
-              <option>SPD-SL</option>
-              <option>Look</option>
-              <option>Speedplay</option>
-            </select>
-            <br>
-            <br>
-            <label>Flat kit:</label>
-            <label><input type="radio" name="flatKit" checked>Yes</label>
-            <label><input type="radio" name="flatKit">No</label>
-            <br>
-            <br>
-            <label>Seat height (optional): <input> (please include units)</label>
+          <span class="riderBikeName">Pinarello F10 Disc</span>
+          <br>
+          <br>
+          <label>Rider name: <input></label>
+          <br>
+          <br>
+          <label>Select size</label>
+          <select>
+            <option>?</option>
+            <option selected>??</option>
+            <option>???</option>
+            <option>????</option>
+          </select>
+          <a href="#">Size chart</a>
+          <br>
+          <br>
+          <label>Select pedals: </label>
+          <select>
+            <option>Flat pedals</option>
+            <option>SPD</option>
+            <option>SPD-SL</option>
+            <option>Look</option>
+            <option>Speedplay</option>
+          </select>
+          <br>
+          <br>
+          <label>Flat kit:</label>
+          <label><input type="radio" name="flatKit" checked>Yes</label>
+          <label><input type="radio" name="flatKit">No</label>
+          <br>
+          <br>
+          <label>Seat height (optional): <input> (please include units)</label>
         </div>
-        <div id="timeAndDate">
-          <table class="month">
+      </template>
+
+      <div id="timeAndDate">
+        <table class="month">
+          <thead>
+            <tr>
+              <td id="curMonthName" colspan="7">July 2019</td>
+            </tr>
+            <tr>
+              <td>Sun</td>
+              <td>Mon</td>
+              <td>Tue</td>
+              <td>Wed</td>
+              <td>Thu</td>
+              <td>Fri</td>
+              <td>Sat</td>
+            </tr>
+          </thead>
+          <tbody id="curMonth">
+          </tbody>
+        </table>
+        <table class="month">
             <thead>
               <tr>
-                <td id="curMonthName" colspan="7">July 2019</td>
+                <td id="nextMonthName" colspan="7">August 2019</td>
               </tr>
               <tr>
                 <td>Sun</td>
@@ -248,36 +276,18 @@
                 <td>Sat</td>
               </tr>
             </thead>
-            <tbody id="curMonth">
+            <tbody id="nextMonth">
             </tbody>
           </table>
-          <table class="month">
-              <thead>
-                <tr>
-                  <td id="nextMonthName" colspan="7">August 2019</td>
-                </tr>
-                <tr>
-                  <td>Sun</td>
-                  <td>Mon</td>
-                  <td>Tue</td>
-                  <td>Wed</td>
-                  <td>Thu</td>
-                  <td>Fri</td>
-                  <td>Sat</td>
-                </tr>
-              </thead>
-              <tbody id="nextMonth">
-              </tbody>
-            </table>
-            <br>
-          <span>Estimated time of arrival on pickup date: </span>
-          <input type="number" pattern="[0-9]">
-          <a href="#">(our hours)</a>
           <br>
-          <label>I'm already at Big Ring: <input type="checkbox"></label>
-        </div>
+        <span>Estimated time of arrival on pickup date: </span>
+        <input type="number" pattern="[0-9]">
+        <a href="#">(our hours)</a>
         <br>
-        <br>
+        <label>I'm already at Big Ring: <input type="checkbox"></label>
+      </div>
+      <br>
+      <br>
     </div>
     <div id="payPage" class="none">
       <div id="payRight">
