@@ -1,17 +1,19 @@
 /**
  * Add unable to progress without required elements
+  * Without bike selected done 
  * Don't reset rider info cards every time you navigate to the info screen
  * add date selection
  * add prices and half-day option
- * add height option for sizing
- * add helmet option
  * link to big ring site? or support?
  * make sure next/back buttons don't get in the way in mobile
+ * add size charts
+ * fix pickup time input
  */
 
 const plusbtns = document.getElementsByClassName('plusbtn');
 const bikenums = document.getElementsByClassName('bikenum');
 const backbtn = document.getElementById('backbtn');
+const nextbtn = document.getElementById('nextbtn');
 
 const bikePage = document.getElementById('bikePage');
 const infoPage = document.getElementById('infoPage');
@@ -21,6 +23,7 @@ const bikeCards = document.getElementById('bikeCards');
 
 const curMonth = document.getElementById('curMonth');
 const nextMonth = document.getElementById('nextMonth');
+
 let page = 0;
 let firstTime = true; //? maybe ?
 const pages = [bikePage, infoPage, payPage];
@@ -61,7 +64,11 @@ function makeMonth(indate, table, thisMonth=true) {
   for (let i = 0; i < 7; i++) { //insert blank spaces for offset
     let tempCell = tempRow.insertCell(i);
     if (i >= firstDay) {
-      tempCell.textContent = i + 1 - firstDay;
+      let date = i + 1 - firstDay
+      tempCell.textContent = date;
+      if (date === indate.getDate() && thisMonth) {
+        tempCell.classList.add('blue');
+      }
     }
   }
   for (let i = 1; i < Math.ceil(numDays/7); i++) {
@@ -78,14 +85,6 @@ function makeMonth(indate, table, thisMonth=true) {
     }
   }
 }
-
-//put in months
-window.addEventListener('load', e => {
-  let getDate = new Date();
-  makeMonth(getDate, curMonth);
-  getDate.setMonth(getDate.getMonth()+1);
-  makeMonth(getDate, nextMonth, false);
-}, false);
 
 function newPage() {
   for (let i = 0; i < pages.length; i++) {
@@ -109,6 +108,20 @@ function selectedBikeCards() {
   }
 }
 
+function nextbtnWidth() { //change the width of the "next" button
+  let scroll = document.scrollingElement;
+  nextbtn.style.width = scroll.scrollHeight - scroll.scrollTop < scroll.clientHeight + 16 ? 'calc(40vw + 15px)' : '';
+}
+
+//put in months
+window.addEventListener('load', () => {
+  let getDate = new Date();
+  makeMonth(getDate, curMonth);
+  getDate.setMonth(getDate.getMonth()+1);
+  makeMonth(getDate, nextMonth, false);
+  nextbtnWidth();
+}, false);
+
 document.addEventListener('click', e => {
   if (e.target.matches('.plusbtn')) {
       let currnum = e.target.parentNode.getElementsByClassName('bikenum')[0];
@@ -124,11 +137,18 @@ document.addEventListener('click', e => {
   }
   else if (e.target.matches('#nextbtn')) {
     scroll(0, 0); //scroll to the top - only needed because I'm doing this on a single url
-    if (page < pages.length-1) page++;
-    if (page > 0) {
-      backbtn.classList.remove('none');
+    if (page === 0) { //check if they selected any bikes
+      let bikeSum = 0;
+      let bikeKeys = Object.keys(selectedBikes);
+      for (let i in bikeKeys) bikeSum += selectedBikes[bikeKeys[i]];
+      if (bikeSum === 0) {
+        alert('Please select at least one bike before continuing.');
+        return;
+      }
     }
-    newPage();
+    if (page < pages.length-1) page++;
+    if (page > 0) backbtn.classList.remove('none');
+    newPage();  
   }
   else if (e.target.matches('#backbtn')) {
     scroll(0, 0);
@@ -136,4 +156,14 @@ document.addEventListener('click', e => {
     if (page === 0) backbtn.classList.add('none');
     newPage();
   }
+  else if (e.target.matches('#showHeight')) { //to show height field - might have to change to class
+    document.getElementById('heightIn').classList.remove('none');
+    document.getElementById('sizeReq').classList.add('none');
+    document.getElementById('showHeight').classList.add('none');
+  }
+  else if (e.target.closest('#curMonth')) {
+    e.target.classList.toggle('blue');
+  }
 }, false);
+
+document.addEventListener('scroll', nextbtnWidth, false);

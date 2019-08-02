@@ -73,18 +73,26 @@
           <span class="riderBikeName">Cannondale Habit 5</span>
           <br>
           <br>
-          <label>Rider name: <input></label>
+          <label>Name:* <input></label>
           <br>
           <br>
-          <label>Select size: </label>
+          <label>Size:<span id="sizeReq">*</span> </label>
           <select>
+            <option>Select size</option>
             <option>Small</option>
-            <option selected>Medium</option>
+            <option>Medium</option>
             <option>Large</option>
             <option>X-Large</option>
           </select>
           <a href="#">Size chart</a>
+          <div id="heightIn" class="none">
+            <label>Height:* <input></label>
+            <p class="moreInputInfo">Height is only required if you don't input a size.</p>
+          </div>
+          <p id="showHeight" class="moreInputInfo">I'm still not sure.</p>
           <br>
+          <label>Weight: <input></label>
+          <p class="moreInputInfo">(We'll use this to set up your suspension)</p>
           <br>
           <label>Select pedals: </label>
           <select>
@@ -93,7 +101,15 @@
             <option>SPD-SL</option>
             <option>Look</option>
             <option>Speedplay</option>
+            <option>Time mountain</option>
+            <option>Time road</option>
+            <option>Frog</option>
           </select>
+          <br>
+          <br>
+          <label>Helmet: </label>
+          <label><input type="radio" name="helmetOption" checked>Yes</label>
+          <label><input type="radio" name="helmetOption">No</label>
           <br>
           <br>
           <label>Flat kit:</label>
@@ -101,7 +117,8 @@
           <label><input type="radio" name="flatKit">No</label>
           <br>
           <br>
-          <label>Seat height (optional): <input> (please include units)</label>
+          <label>Seat height (optional): <input></label>
+          <p class="moreInputInfo">Please include units.</p>
         </div>
       </template>
       <template id="synapseTemplate">
@@ -109,13 +126,14 @@
           <span class="riderBikeName">Cannondale Synapse</span>
           <br>
           <br>
-          <label>Rider name: <input></label>
+          <label>Name:* <input></label>
           <br>
           <br>
-          <label>Select size: </label>
+          <label>Size:* </label>
           <select>
+            <option>Select size</option>
             <option>51</option>
-            <option selected>54</option>
+            <option>54</option>
             <option>56</option>
             <option>58</option>
           </select>
@@ -129,7 +147,15 @@
             <option>SPD-SL</option>
             <option>Look</option>
             <option>Speedplay</option>
+            <option>Time mountain</option>
+            <option>Time road</option>
+            <option>Frog</option>
           </select>
+          <br>
+          <br>
+          <label>Helmet: </label>
+          <label><input type="radio" name="helmetOption" checked>Yes</label>
+          <label><input type="radio" name="helmetOption">No</label>
           <br>
           <br>
           <label>Flat kit:</label>
@@ -137,7 +163,8 @@
           <label><input type="radio" name="flatKit">No</label>
           <br>
           <br>
-          <label>Seat height (optional): <input> (please include units)</label>
+          <label>Seat height (optional): <input></label>
+          <p class="moreInputInfo">Please include units.</p>
       </div>
       </template>
       <template id="veneziaTemplate">
@@ -145,22 +172,28 @@
           <span class="riderBikeName">Bianchi Venezia</span>
           <br>
           <br>
-          <label>Rider name: <input></label>
+          <label>Name:* <input></label>
           <br>
           <br>
-          <label>Model: </label>
+          <label>Model:* </label>
           <select>
               <option>Women's</option>
               <option>Men's</option>
             </select>
           <br>
           <br>
-          <label>Select size: </label>
+          <label>Size:* </label>
           <select>
+            <option>Select size</option>
             <option>Small</option>
             <option>Large</option>
           </select>
           <a href="#">Size chart</a>
+          <br>
+          <br>
+          <label>Helmet: </label>
+          <label><input type="radio" name="helmetOption" checked>Yes</label>
+          <label><input type="radio" name="helmetOption">No</label>
           <br>
           <br>
           <label>Flat kit:</label>
@@ -168,7 +201,8 @@
           <label><input type="radio" name="flatKit" checked>No</label>
           <br>
           <br>
-          <label>Seat height (optional): <input> (please include units)</label>
+          <label>Seat height (optional): <input></label>
+          <p class="moreInputInfo">Please include units.</p>
         </div>
       </template>
       <template id="dyodoTemplate">
@@ -176,12 +210,13 @@
           <span class="riderBikeName">Pinarello Dyodo</span>
           <br>
           <br>
-          <label>Rider name: <input></label>
+          <label>Name:* <input></label>
           <br>
           <br>
-          <label>Select size: </label>
+          <label>Size:* </label>
           <select>
-            <option selected>55</option>
+            <option>Select size</option>
+            <option>55</option>
             <option>58</option>
           </select>
           <a href="#">Size chart</a>
@@ -194,7 +229,15 @@
             <option>SPD-SL</option>
             <option>Look</option>
             <option>Speedplay</option>
+            <option>Time mountain</option>
+            <option>Time road</option>
+            <option>Frog</option>
           </select>
+          <br>
+          <br>
+          <label>Helmet: </label>
+          <label><input type="radio" name="helmetOption" checked>Yes</label>
+          <label><input type="radio" name="helmetOption">No</label>
           <br>
           <br>
           <label>Flat kit:</label>
@@ -202,7 +245,8 @@
           <label><input type="radio" name="flatKit">No</label>
           <br>
           <br>
-          <label>Seat height (optional): <input> (please include units)</label>
+          <label>Seat height (optional): <input></label>
+          <p class="moreInputInfo">Please include units.</p>
         </div>
       </template>
       <template id="f10Template">
@@ -210,13 +254,14 @@
           <span class="riderBikeName">Pinarello F10 Disc</span>
           <br>
           <br>
-          <label>Rider name: <input></label>
+          <label>Name:* <input></label>
           <br>
           <br>
-          <label>Select size</label>
+          <label>Size:* </label>
           <select>
+            <option>Select size</option>
             <option>?</option>
-            <option selected>??</option>
+            <option>??</option>
             <option>???</option>
             <option>????</option>
           </select>
@@ -230,7 +275,15 @@
             <option>SPD-SL</option>
             <option>Look</option>
             <option>Speedplay</option>
+            <option>Time mountain</option>
+            <option>Time road</option>
+            <option>Frog</option>
           </select>
+          <br>
+          <br>
+          <label>Helmet: </label>
+          <label><input type="radio" name="helmetOption" checked>Yes</label>
+          <label><input type="radio" name="helmetOption">No</label>
           <br>
           <br>
           <label>Flat kit:</label>
@@ -238,7 +291,8 @@
           <label><input type="radio" name="flatKit">No</label>
           <br>
           <br>
-          <label>Seat height (optional): <input> (please include units)</label>
+          <label>Seat height (optional): <input></label>
+          <p class="moreInputInfo">Please include units.</p>
         </div>
       </template>
 
@@ -284,6 +338,8 @@
         <input type="number" pattern="[0-9]">
         <a href="#">(our hours)</a>
         <br>
+        <strong>OR</strong>
+        <br>
         <label>I'm already at Big Ring: <input type="checkbox"></label>
       </div>
       <br>
@@ -293,7 +349,7 @@
       <div id="payRight">
         <label>Email:</label>
         <input>
-        <p>Required to sign waiver and manage your reservation. We will never share your email with anyone else.</p>
+        <p class="moreInputInfo">Required to sign waiver and manage your reservation. We will never share your email with anyone else.</p>
         <br>
         <label>Phone number:</label>
         <input>
