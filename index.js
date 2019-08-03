@@ -8,6 +8,7 @@
  * make sure next/back buttons don't get in the way in mobile
  * add size charts
  * fix pickup time input
+ * Build cards with js instead of having them all typed out in html - also give them IDs
  */
 
 const plusbtns = document.getElementsByClassName('plusbtn');
@@ -66,6 +67,7 @@ function makeMonth(indate, table, thisMonth=true) {
     if (i >= firstDay) {
       let date = i + 1 - firstDay
       tempCell.textContent = date;
+      tempCell.classList.add('monthDay');
       if (date === indate.getDate() && thisMonth) {
         tempCell.classList.add('blue');
       }
@@ -77,11 +79,12 @@ function makeMonth(indate, table, thisMonth=true) {
       let tempCell = tempRow.insertCell(j);
       let date = (j+1)+(i*7)-firstDay;
       if (date === indate.getDate() && thisMonth) {
-        tempCell.style.background = '#0275d8';
+        tempCell.classList.add('blue');
       }
       if (date > numDays) break;
 
       tempCell.textContent = date;
+      tempCell.classList.add('monthDay');
     }
   }
 }

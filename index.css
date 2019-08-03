@@ -141,13 +141,14 @@ select {
   font-size: 14px;
 }
 
-.month tbody td:hover {
-  background: #0275d8;
+.monthDay:hover {
+  background: #0189ff;
   cursor: pointer;
 }
 
 .month {
   display: inline-block;
+  border-collapse: collapse;
 }
 
 #payRight {
