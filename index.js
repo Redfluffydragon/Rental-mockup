@@ -9,6 +9,7 @@
  * add size charts
  * fix pickup time input
  * Build cards with js instead of having them all typed out in html - also give them IDs
+ * https://docs.google.com/document/d/14S-1wbTMa63vxLuZx3-d4fP0cyHfL3N09GlYWPsnfi0/edit
  */
 
 const plusbtns = document.getElementsByClassName('plusbtn');
@@ -55,6 +56,14 @@ let selectedBikes = {
   f10: 0
 };
 
+let curSelection = {
+  habit: 0,
+  synapse: 0,
+  venezia: 0,
+  dyodo: 0,
+  f10: 0
+}
+
 function makeMonth(indate, table, thisMonth=true) {
   let year = indate.getFullYear();
   checkLeapYear(year); //change number of days in February
@@ -89,18 +98,20 @@ function makeMonth(indate, table, thisMonth=true) {
   }
 }
 
+// go to the next page and 
 function newPage() {
   for (let i = 0; i < pages.length; i++) {
     pages[i].classList.add('none');
   }
   pages[page].classList.remove('none');
   if (pages[page] === infoPage) {
+    curSelection = selectedBikes;
     selectedBikeCards();
   }
 }
 
 function selectedBikeCards() {
-  bikeCards.innerHTML = ''; //figure out a better solution. Matching?
+  bikeCards.innerHTML = ''; //figure out a better solution. Match curSelection against selectedBikes?
   let bikesList = Object.keys(selectedBikes);
   for (let i in bikesList) {
     for (let j = 0; j < selectedBikes[bikesList[i]]; j++) {
@@ -116,7 +127,52 @@ function nextbtnWidth() { //change the width of the "next" button
   nextbtn.style.width = scroll.scrollHeight - scroll.scrollTop < scroll.clientHeight + 16 ? 'calc(40vw + 15px)' : '';
 }
 
-//put in months
+//check for required fields
+function checkBikePage() {
+  let bikeSum = 0;
+  let bikeKeys = Object.keys(selectedBikes);
+  for (let i in bikeKeys) bikeSum += selectedBikes[bikeKeys[i]];
+  if (bikeSum === 0) {
+    alert('Please select at least one bike before continuing.');
+    return false;
+  }
+  return true;
+}
+
+//check for required fields
+function checkInfoPage() {
+  let names = document.getElementsByClassName('name');
+  let sizes = document.getElementsByClassName('size');
+  let heights = document.getElementsByClassName('height');
+  for (let i = 0; i < names.length; i++) {
+    if (names[i].value === '') return false;
+  }
+  for (let i = 0; i < sizes.length; i++) {
+    if (sizes[i].value === 'Select size') {
+      if (heights[i].value === '') return false;
+    }
+  }
+  return true;
+}
+
+//call checks and go to next page
+function goNextPage() {
+  scroll(0, 0); //scroll to the top - only needed because I'm doing this on a single url
+  if (page === 0) { //check if they selected any bikes
+    if (!checkBikePage()) return;
+  }
+  else if (page === 1) {
+    if (!checkInfoPage()) {
+      alert('Please fill out all required fields before continuing.');
+      return;
+    }
+  }
+  if (page < pages.length-1) page++;
+  if (page > 0) backbtn.classList.remove('none');
+  newPage();
+}
+
+//generate this month and the next
 window.addEventListener('load', () => {
   let getDate = new Date();
   makeMonth(getDate, curMonth);
@@ -125,33 +181,28 @@ window.addEventListener('load', () => {
   nextbtnWidth();
 }, false);
 
+window.addEventListener('keydown', e => {
+  if (e.keyCode === 13) { //use enter to move to the next page
+    e.preventDefault();
+    goNextPage();
+  }
+}, false);
+
 document.addEventListener('click', e => {
   if (e.target.matches('.plusbtn')) {
-      let currnum = e.target.parentNode.getElementsByClassName('bikenum')[0];
-      currnum.textContent++;
-      let bikename = e.target.closest('.bikediv').id;
-      selectedBikes[bikename]++;
+    let currnum = e.target.parentNode.getElementsByClassName('bikenum')[0];
+    currnum.textContent++;
+    let bikename = e.target.closest('.bikediv').id;
+    selectedBikes[bikename]++;
   }
   else if (e.target.matches('.minbtn')) {
     let currnum = e.target.parentNode.getElementsByClassName('bikenum')[0];
     if (currnum.textContent > 0) currnum.textContent--;
     let bikename = e.target.closest('.bikediv').id;
-      selectedBikes[bikename]--;
+    selectedBikes[bikename]--;
   }
   else if (e.target.matches('#nextbtn')) {
-    scroll(0, 0); //scroll to the top - only needed because I'm doing this on a single url
-    if (page === 0) { //check if they selected any bikes
-      let bikeSum = 0;
-      let bikeKeys = Object.keys(selectedBikes);
-      for (let i in bikeKeys) bikeSum += selectedBikes[bikeKeys[i]];
-      if (bikeSum === 0) {
-        alert('Please select at least one bike before continuing.');
-        return;
-      }
-    }
-    if (page < pages.length-1) page++;
-    if (page > 0) backbtn.classList.remove('none');
-    newPage();  
+    goNextPage(); 
   }
   else if (e.target.matches('#backbtn')) {
     scroll(0, 0);

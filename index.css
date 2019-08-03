@@ -142,13 +142,15 @@ select {
 }
 
 .monthDay:hover {
-  background: #0189ff;
+  background: rgba(2,117,216,.5);
   cursor: pointer;
 }
 
 .month {
   display: inline-block;
   border-collapse: collapse;
+  margin: 0 5px;
+  margin-bottom: 5px;
 }
 
 #payRight {
@@ -248,5 +250,9 @@ select {
 }
 
 .blue {
+  background: #0275d8;
+}
+
+.blue:hover {
   background: #0275d8;
 }

@@ -73,11 +73,11 @@
           <span class="riderBikeName">Cannondale Habit 5</span>
           <br>
           <br>
-          <label>Name:* <input></label>
+          <label>Name:* <input class="name"></label>
           <br>
           <br>
           <label>Size:<span id="sizeReq">*</span> </label>
-          <select>
+          <select class="size">
             <option>Select size</option>
             <option>Small</option>
             <option>Medium</option>
@@ -86,7 +86,7 @@
           </select>
           <a href="#">Size chart</a>
           <div id="heightIn" class="none">
-            <label>Height:* <input></label>
+            <label>Height:* <input class="height"></label>
             <p class="moreInputInfo">Height is only required if you don't input a size.</p>
           </div>
           <p id="showHeight" class="moreInputInfo">I'm still not sure.</p>
@@ -297,6 +297,7 @@
       </template>
 
       <div id="timeAndDate">
+        <h3>Rental Dates</h3>
         <table class="month">
           <thead>
             <tr>
@@ -332,8 +333,8 @@
             </thead>
             <tbody id="nextMonth">
             </tbody>
-          </table>
-          <br>
+        </table>
+        <br>
         <span>Estimated time of arrival on pickup date: </span>
         <input type="number" pattern="[0-9]">
         <a href="#">(our hours)</a>
