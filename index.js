@@ -145,11 +145,22 @@ function checkInfoPage() {
   let sizes = document.getElementsByClassName('size');
   let heights = document.getElementsByClassName('height');
   for (let i = 0; i < names.length; i++) {
-    if (names[i].value === '') return false;
+    if (names[i].value === '') {
+     names[i].style.border = '1px solid red';
+     return false;
+    }
   }
   for (let i = 0; i < sizes.length; i++) {
     if (sizes[i].value === 'Select size') {
-      if (heights[i].value === '') return false;
+     if (heights[i].style.display === 'none') {
+      sizes[i].style.border = '1px solid red';
+     }
+     else {
+      if (heights[i].value === '') {
+       heights[i].style.border = '1px solid red';
+       return false;
+      }
+     }
     }
   }
   return true;
@@ -221,3 +232,4 @@ document.addEventListener('click', e => {
 }, false);
 
 document.addEventListener('scroll', nextbtnWidth, false);
+
