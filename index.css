@@ -58,7 +58,7 @@ select {
   padding: 4px;
   display: inline-block;
   width: 30vw;
-  min-height: 59vmin;
+  height: 59vmin;
   height: auto;
   vertical-align: top;
 }
@@ -76,6 +76,8 @@ select {
   padding: 4px;
   margin: auto;
   text-align: center;
+  position: absolute;
+  bottom: 5px;
 }
 
 .plusbtn {
@@ -222,6 +224,7 @@ select {
     display: block;
     width: 90vw;
     margin: 4px auto;
+    height: auto;
   }
 }
 
