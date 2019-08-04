@@ -221,7 +221,7 @@ document.addEventListener('click', e => {
     if (page === 0) backbtn.classList.add('none');
     newPage();
   }
-  else if (e.target.matches('#showHeight')) { //to show height field - might have to change to class
+  else if (e.target.closest('#showHeight')) { //to show height field - might have to change to class
     document.getElementById('heightIn').classList.remove('none');
     document.getElementById('sizeReq').classList.add('none');
     document.getElementById('showHeight').classList.add('none');
