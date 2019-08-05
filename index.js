@@ -1,16 +1,13 @@
 /**
- * Add unable to progress without required elements
-  * Without bike selected done 
  * Don't reset rider info cards every time you navigate to the info screen
- * add date selection
+ * add actual date selection
  * add prices and half-day option
  * link to big ring site? or support?
- * make sure next/back buttons don't get in the way in mobile
  * add size charts
- * fix pickup time input
  * Build cards with js instead of having them all typed out in html - also give them IDs
+ * stack next and back buttons and make them full width for mobile?
  * https://docs.google.com/document/d/14S-1wbTMa63vxLuZx3-d4fP0cyHfL3N09GlYWPsnfi0/edit
- */
+*/
 
 const plusbtns = document.getElementsByClassName('plusbtn');
 const bikenums = document.getElementsByClassName('bikenum');
@@ -108,6 +105,7 @@ function newPage() {
     curSelection = selectedBikes;
     selectedBikeCards();
   }
+  nextbtnWidth();
 }
 
 function selectedBikeCards() {
@@ -120,6 +118,14 @@ function selectedBikeCards() {
       bikeCards.appendChild(dupe);
     }
   }
+}
+
+function assembleCards() {
+  //bike name (diff)
+  //name field (same)
+  //size, model, weight (diff)
+  //pedals (except venezia)
+  //helmet, flat kit, seat height (same)
 }
 
 function nextbtnWidth() { //change the width of the "next" button
@@ -141,29 +147,31 @@ function checkBikePage() {
 
 //check for required fields
 function checkInfoPage() {
+  let filled = true;
   let names = document.getElementsByClassName('name');
   let sizes = document.getElementsByClassName('size');
-  let heights = document.getElementsByClassName('height');
+  let heights = document.getElementsByClassName('heightIn');
   for (let i = 0; i < names.length; i++) {
     if (names[i].value === '') {
      names[i].style.border = '1px solid red';
-     return false;
+     filled = false;
     }
   }
   for (let i = 0; i < sizes.length; i++) {
     if (sizes[i].value === 'Select size') {
-     if (heights[i].style.display === 'none') {
+     if (heights[i].classList.contains('none')) {
       sizes[i].style.border = '1px solid red';
+      filled = false;
      }
      else {
       if (heights[i].value === '') {
        heights[i].style.border = '1px solid red';
-       return false;
+       filled = false;
       }
      }
     }
   }
-  return true;
+  return filled;
 }
 
 //call checks and go to next page
@@ -222,7 +230,7 @@ document.addEventListener('click', e => {
     newPage();
   }
   else if (e.target.closest('#showHeight')) { //to show height field - might have to change to class
-    document.getElementById('heightIn').classList.remove('none');
+    document.getElementsByClassName('heightIn')[0].classList.remove('none'); //have to make it select the right one
     document.getElementById('sizeReq').classList.add('none');
     document.getElementById('showHeight').classList.add('none');
   }
