@@ -43,8 +43,9 @@ select {
   position: fixed;
   top: 0;
   left: 0;
-  height: 67px;
+  height: 62px;
   color: #eeeeee;
+  z-index: 4;
 }
 
 #header h1 {
@@ -52,20 +53,21 @@ select {
 }
 
 .bikediv {
-  margin-top: 4px;
-  border: 1px solid gray;
+  margin: 5.5px 4px;
+  border: 1.4px solid rgb(180, 180, 180);
   border-radius: 5px;
   padding: 4px;
   display: inline-block;
   width: 30vw;
-  height: 59vmin;
-  height: auto;
+  height: 60vmin;
   vertical-align: top;
+  position: relative;
 }
 
 .bikeimg {
   display: block;
   max-width: 28vw;
+  max-height: 31vh;
   margin: auto;
 }
 
@@ -78,6 +80,8 @@ select {
   text-align: center;
   position: absolute;
   bottom: 5px;
+  left: 50%;
+  margin-left: -60px;
 }
 
 .plusbtn {
@@ -97,21 +101,11 @@ select {
   width: 24px;
 }
 
-#dyodofig {
-  margin: 0;
-  overflow: hidden;
-}
-
-#dyodoimg {
-  margin-top: -5vw;
-  margin-bottom: -6vw;
-}
-
 #showHeight {
   cursor: pointer;
 }
 
-#heightIn {
+.heightIn {
   position: relative;
   top: 3px;
 }
@@ -185,7 +179,7 @@ select {
   bottom: 4vh;
   width: 100px;
   padding: 6px;
-  right: 5vh;
+  right: 2vw;
   background: #007bff;
   color: #eeeeee;
   font-size: 1.5em;
@@ -202,6 +196,21 @@ select {
   transition: all .4s;
 }
 
+@media (orientation: portrait) {
+  .bikediv {
+    height: 48vw;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .bikediv {
+    width: 45vw;
+  }
+  .bikeimg {
+    max-width: 40vw;
+  }
+}
+
 @media screen and (max-width: 847px) {
   .oneRider {
     width: 80vw;
@@ -209,22 +218,24 @@ select {
   }
 }
 
-@media screen and (max-width: 717px) {
-  .bikediv {
-    width: 45vw;
-  }
-}
-
-@media screen and (max-width: 573px) {
+@media screen and (max-width: 749px) { /* Goes completely to list here */
   .bikeimg { 
     max-width: 85vw;
-    margin-left: 2vw;
   }
   .bikediv {
-    display: block;
     width: 90vw;
-    margin: 4px auto;
+    margin: 5px auto;
+    padding: 4px;
     height: auto;
+  }
+  .bikebuttons {
+    position: relative;
+  }
+  .plusbtn, .minbtn {
+    margin: -2px;
+  }
+  #nextbtn {
+    right: 5vw;
   }
 }
 
