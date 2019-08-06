@@ -154,11 +154,11 @@ select {
   position: absolute;
   left: 10vw;
   text-align: left;
-  margin-bottom: 100px;
+  padding-bottom: 100px;
 }
 
 #payPage input {
-  width: 100%;
+  width: calc(100% - 16px);
   font-size: 16px;
   padding: 6px 8px;
   margin-bottom: 0;
