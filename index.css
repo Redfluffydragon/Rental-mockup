@@ -154,6 +154,7 @@ select {
   position: absolute;
   left: 10vw;
   text-align: left;
+  margin-bottom: 100px;
 }
 
 #payPage input {
