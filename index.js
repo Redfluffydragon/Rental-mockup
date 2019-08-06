@@ -1,10 +1,11 @@
 /**
+ * fix next button scrolling width on mobile
  * Don't reset rider info cards every time you navigate to the info screen
  * add actual date selection
  * add prices and half-day option
  * link to big ring site? or support?
- * add size charts
- * Build cards with js instead of having them all typed out in html - also give them IDs
+ * make & add size charts
+ * Give cards IDs
  * stack next and back buttons and make them full width for mobile?
  * https://docs.google.com/document/d/14S-1wbTMa63vxLuZx3-d4fP0cyHfL3N09GlYWPsnfi0/edit
 */
@@ -198,6 +199,9 @@ window.addEventListener('load', () => {
   getDate.setMonth(getDate.getMonth()+1);
   makeMonth(getDate, nextMonth, false);
   nextbtnWidth();
+  if (page > 0) {
+    backbtn.classList.remove('none');
+  }
 }, false);
 
 window.addEventListener('keydown', e => {
