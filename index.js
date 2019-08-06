@@ -61,11 +61,20 @@ let curSelection = {
   f10: 0
 }
 
+let bikeNames = {
+  habit: 'Cannondale Habit',
+  synapse: 'Cannondale Synapse',
+  venezia: 'Bianchi Venezia',
+  dyodo: 'Pinarello Dyodo',
+  f10: 'Pinarello F10'
+}
+
 function makeMonth(indate, table, thisMonth=true) {
   let year = indate.getFullYear();
   checkLeapYear(year); //change number of days in February
   table.parentNode.getElementsByTagName('td')[0].textContent = months[indate.getMonth()] + ' ' + year;
-  let firstDay = indate.getDay() - indate.getDate() % 7 + 1; //get offset for the first day of the month
+  let firstDay = Math.abs(indate.getDay() - (indate.getDate() % 7)); //get offset for the first day of the month
+  console.log(indate.getDay() + indate.getDate() % 7 + 1);
   let numDays = monthDays[indate.getMonth()]; //get the number of days for the current month
   let tempRow = table.insertRow(0); //insert the first row
   for (let i = 0; i < 7; i++) { //insert blank spaces for offset
@@ -79,7 +88,7 @@ function makeMonth(indate, table, thisMonth=true) {
       }
     }
   }
-  for (let i = 1; i < Math.ceil(numDays/7); i++) {
+  for (let i = 1; i < Math.ceil(numDays/7); i++) { //start at one to do the rest of the rows
     tempRow = table.insertRow(i);
     for (let j = 0; j < 7; j++) {
       let tempCell = tempRow.insertCell(j);
@@ -109,18 +118,47 @@ function newPage() {
 }
 
 function selectedBikeCards() {
-  bikeCards.innerHTML = ''; //figure out a better solution. Match curSelection against selectedBikes?
+  bikeCards.innerHTML = ''; //figure out a better solution. Match curSelection against selectedBikes?4
   let bikesList = Object.keys(selectedBikes);
   for (let i in bikesList) {
     for (let j = 0; j < selectedBikes[bikesList[i]]; j++) {
-      let getTemp = document.getElementById(bikesList[i] + 'Template');
-      let dupe = getTemp.content.cloneNode(true);
-      bikeCards.appendChild(dupe);
+      assembleCard(bikesList[i])
     }
   }
 }
 
-function assembleCards() {
+function assembleCard(bike, num) {
+  let card = document.createElement('div');
+  card.className = 'oneRider';
+
+  let bikeName = document.createElement('span');
+  bikeName.className = 'riderBikeName';
+  bikeName.textContent = bikeNames[bike];
+  card.appendChild(bikeName);
+
+  let nameField = document.getElementById('nameIn').content.cloneNode(true);
+  card.appendChild(nameField);
+
+  let sizeSelect = document.getElementById(bike + 'Size').content.cloneNode(true);
+  card.appendChild(sizeSelect);
+
+  let heightOption = document.getElementById('height').content.cloneNode(true); //maybe? have to get weight in there somehow
+  card.appendChild(heightOption);
+
+  if (bike === 'habit') {
+    let weightField = document.getElementById('weight').content.cloneNode(true);
+    card.appendChild(weightField);
+  }
+
+  if (bike !== 'venezia') {
+    let pedalSelect = document.getElementById('pedals').content.cloneNode(true);
+    card.appendChild(pedalSelect);
+  }
+
+  let HFKSH = document.getElementById('HFKSH').content.cloneNode(true);
+  card.appendChild(HFKSH);
+
+  bikeCards.appendChild(card);
   //bike name (diff)
   //name field (same)
   //size, model, weight (diff)
@@ -133,7 +171,7 @@ function nextbtnWidth() { //change the width of the "next" button
   nextbtn.style.width = scroll.scrollHeight - scroll.scrollTop < scroll.clientHeight + 16 ? 'calc(40vw + 15px)' : '';
 }
 
-//check for required fields
+//check if there's a bike selected
 function checkBikePage() {
   let bikeSum = 0;
   let bikeKeys = Object.keys(selectedBikes);
@@ -151,6 +189,7 @@ function checkInfoPage() {
   let names = document.getElementsByClassName('name');
   let sizes = document.getElementsByClassName('size');
   let heights = document.getElementsByClassName('heightIn');
+  let heightInputs = document.getElementsByClassName('height');
   for (let i = 0; i < names.length; i++) {
     if (names[i].value === '') {
      names[i].style.border = '1px solid red';
@@ -158,17 +197,13 @@ function checkInfoPage() {
     }
   }
   for (let i = 0; i < sizes.length; i++) {
-    if (sizes[i].value === 'Select size') {
-     if (heights[i].classList.contains('none')) {
+    if (sizes[i].value === 'Select size' && heights[i].classList.contains('none')) {
       sizes[i].style.border = '1px solid red';
       filled = false;
      }
-     else {
-      if (heights[i].value === '') {
-       heights[i].style.border = '1px solid red';
-       filled = false;
-      }
-     }
+     else if (heightInputs[i].value === '' && sizes[i].value === 'Select size') {
+      heightInputs[i].style.border = '1px solid red';
+      filled = false;
     }
   }
   return filled;
@@ -230,9 +265,9 @@ document.addEventListener('click', e => {
     newPage();
   }
   else if (e.target.closest('#showHeight')) { //to show height field - might have to change to class
-    document.getElementsByClassName('heightIn')[0].classList.remove('none'); //have to make it select the right one
-    document.getElementById('sizeReq').classList.add('none');
-    document.getElementById('showHeight').classList.add('none');
+    e.target.closest('#heightDiv').getElementsByClassName('heightIn')[0].classList.remove('none'); //have to make it select the right one
+    // document.getElementById('sizeReq').classList.add('none'); //hide asterisk on size?
+    e.target.closest('#showHeight').classList.add('none');
   }
   else if (e.target.closest('#curMonth')) {
     e.target.classList.toggle('blue');

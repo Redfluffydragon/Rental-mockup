@@ -66,46 +66,45 @@
     <div id="infoPage" class="none">
       <p>Please fill out as much information as accurately as you can so we can have your bike ready for you when you arrive.</p>
       <div id="bikeCards"></div>
-      <template id="habitTemplate">
-        <div class="oneRider">
-          <span class="riderBikeName">Cannondale Habit 5</span>
-          <br>
-          <br>
-          <label>Name:* <input class="name"></label>
-          <br>
-          <br>
-          <label>Size:<span id="sizeReq">*</span> </label>
-          <select class="size">
-            <option>Select size</option>
-            <option>Small</option>
-            <option>Medium</option>
-            <option>Large</option>
-            <option>X-Large</option>
-          </select>
-          <a href="#">Size chart</a>
+      <template id="nameIn">
+        <br>
+        <br>
+        <label>Name:* <input class="name"></label>
+        <br>
+        <br>
+      </template>
+      <template id="height">
+        <div id="heightDiv">
           <div class="heightIn none">
             <label>Height:* <input class="height"></label>
             <p class="moreInputInfo">Height is only required if you don't input a size.</p>
           </div>
           <p id="showHeight" class="moreInputInfo">(<u>I'm still not sure.</u>)</p>
           <br>
-          <label>Weight: <input></label>
-          <p class="moreInputInfo">(We'll use this to set up your suspension)</p>
-          <br>
-          <label>Select pedals: </label>
-          <select>
-            <option>Flat pedals</option>
-            <option>I'll bring my own</option>
-            <option>SPD</option>
-            <option>SPD-SL</option>
-            <option>Look KEO</option>
-            <option>Speedplay</option>
-            <option>Time mountain</option>
-            <option>Time road</option>
-            <option>Frog</option>
-          </select>
-          <br>
-          <br>
+        </div>
+      </template>
+      <template id="weight">
+        <label>Weight: <input></label>
+        <p class="moreInputInfo">(We'll use this to set up your suspension)</p>
+        <br>
+      </template>
+      <template id="pedals">
+        <label>Select pedals: </label>
+        <select>
+          <option>Flat pedals</option>
+          <option>I'll bring my own</option>
+          <option>SPD</option>
+          <option>SPD-SL</option>
+          <option>Look KEO</option>
+          <option>Speedplay</option>
+          <option>Time mountain</option>
+          <option>Time road</option>
+          <option>Frog</option>
+        </select>
+        <br>
+        <br>
+      </template>
+      <template id="HFKSH">
           <label>Helmet: </label>
           <label><input type="radio" name="helmetOption" checked>Yes</label>
           <label><input type="radio" name="helmetOption">No</label>
@@ -118,181 +117,65 @@
           <br>
           <label>Seat height (optional): <input></label>
           <p class="moreInputInfo">Please include units.</p>
-        </div>
       </template>
-      <template id="synapseTemplate">
-        <div class="oneRider">
-          <span class="riderBikeName">Cannondale Synapse</span>
-          <br>
-          <br>
-          <label>Name:* <input></label>
-          <br>
-          <br>
-          <label>Size:* </label>
-          <select>
-            <option>Select size</option>
-            <option>51</option>
-            <option>54</option>
-            <option>56</option>
-            <option>58</option>
-          </select>
-          <a href="#">Size chart</a>
-          <br>
-          <br>
-          <label>Select pedals: </label>
-          <select>
-            <option>Flat pedals</option>
-            <option>SPD</option>
-            <option>SPD-SL</option>
-            <option>Look</option>
-            <option>Speedplay</option>
-            <option>Time mountain</option>
-            <option>Time road</option>
-            <option>Frog</option>
-          </select>
-          <br>
-          <br>
-          <label>Helmet: </label>
-          <label><input type="radio" name="helmetOption" checked>Yes</label>
-          <label><input type="radio" name="helmetOption">No</label>
-          <br>
-          <br>
-          <label>Flat kit:</label>
-          <label><input type="radio" name="flatKit" checked>Yes</label>
-          <label><input type="radio" name="flatKit">No</label>
-          <br>
-          <br>
-          <label>Seat height (optional): <input></label>
-          <p class="moreInputInfo">Please include units.</p>
-      </div>
+
+      <template id="habitSize">
+        <label>Size:<span class="sizeReq">*</span> </label>
+        <select class="size">
+          <option>Select size</option>
+          <option>Small</option>
+          <option>Medium</option>
+          <option>Large</option>
+          <option>X-Large</option>
+        </select>
+        <a href="#">Size chart</a>
       </template>
-      <template id="veneziaTemplate">
-        <div class="oneRider">
-          <span class="riderBikeName">Bianchi Venezia</span>
-          <br>
-          <br>
-          <label>Name:* <input></label>
-          <br>
-          <br>
-          <label>Model:* </label>
-          <select>
-              <option>Women's</option>
-              <option>Men's</option>
-            </select>
-          <br>
-          <br>
-          <label>Size:* </label>
-          <select>
-            <option>Select size</option>
-            <option>Small</option>
-            <option>Large</option>
-          </select>
-          <a href="#">Size chart</a>
-          <br>
-          <br>
-          <label>Helmet: </label>
-          <label><input type="radio" name="helmetOption" checked>Yes</label>
-          <label><input type="radio" name="helmetOption">No</label>
-          <br>
-          <br>
-          <label>Flat kit:</label>
-          <label><input type="radio" name="flatKit">Yes</label>
-          <label><input type="radio" name="flatKit" checked>No</label>
-          <br>
-          <br>
-          <label>Seat height (optional): <input></label>
-          <p class="moreInputInfo">Please include units.</p>
-        </div>
+      <template id="synapseSize">
+        <label>Size:* </label>
+        <select class="size">
+          <option>Select size</option>
+          <option>51</option>
+          <option>54</option>
+          <option>56</option>
+          <option>58</option>
+        </select>
+        <a href="#">Size chart</a>
       </template>
-      <template id="dyodoTemplate">
-        <div class="oneRider">
-          <span class="riderBikeName">Pinarello Dyodo</span>
-          <br>
-          <br>
-          <label>Name:* <input></label>
-          <br>
-          <br>
-          <label>Size:* </label>
-          <select>
-            <option>Select size</option>
-            <option>55</option>
-            <option>58</option>
+      <template id="veneziaSize">
+        <label>Model:* </label>
+        <select>
+            <option>Women's</option>
+            <option>Men's</option>
           </select>
-          <a href="#">Size chart</a>
-          <br>
-          <br>
-          <label>Select pedals: </label>
-          <select>
-            <option>Flat pedals</option>
-            <option>SPD</option>
-            <option>SPD-SL</option>
-            <option>Look</option>
-            <option>Speedplay</option>
-            <option>Time mountain</option>
-            <option>Time road</option>
-            <option>Frog</option>
-          </select>
-          <br>
-          <br>
-          <label>Helmet: </label>
-          <label><input type="radio" name="helmetOption" checked>Yes</label>
-          <label><input type="radio" name="helmetOption">No</label>
-          <br>
-          <br>
-          <label>Flat kit:</label>
-          <label><input type="radio" name="flatKit" checked>Yes</label>
-          <label><input type="radio" name="flatKit">No</label>
-          <br>
-          <br>
-          <label>Seat height (optional): <input></label>
-          <p class="moreInputInfo">Please include units.</p>
-        </div>
+        <br>
+        <br>
+        <label>Size:* </label>
+        <select class="size">
+          <option>Select size</option>
+          <option>Small</option>
+          <option>Large</option>
+        </select>
+        <a href="#">Size chart</a>
       </template>
-      <template id="f10Template">
-        <div class="oneRider">
-          <span class="riderBikeName">Pinarello F10 Disc</span>
-          <br>
-          <br>
-          <label>Name:* <input></label>
-          <br>
-          <br>
-          <label>Size:* </label>
-          <select>
-            <option>Select size</option>
-            <option>?</option>
-            <option>??</option>
-            <option>???</option>
-            <option>????</option>
-          </select>
-          <a href="#">Size chart</a>
-          <br>
-          <br>
-          <label>Select pedals: </label>
-          <select>
-            <option>Flat pedals</option>
-            <option>SPD</option>
-            <option>SPD-SL</option>
-            <option>Look</option>
-            <option>Speedplay</option>
-            <option>Time mountain</option>
-            <option>Time road</option>
-            <option>Frog</option>
-          </select>
-          <br>
-          <br>
-          <label>Helmet: </label>
-          <label><input type="radio" name="helmetOption" checked>Yes</label>
-          <label><input type="radio" name="helmetOption">No</label>
-          <br>
-          <br>
-          <label>Flat kit:</label>
-          <label><input type="radio" name="flatKit" checked>Yes</label>
-          <label><input type="radio" name="flatKit">No</label>
-          <br>
-          <br>
-          <label>Seat height (optional): <input></label>
-          <p class="moreInputInfo">Please include units.</p>
-        </div>
+      <template id="dyodoSize">
+        <label>Size:* </label>
+        <select class="size">
+          <option>Select size</option>
+          <option>55</option>
+          <option>58</option>
+        </select>
+        <a href="#">Size chart</a>
+      </template>
+      <template id="f10Size">
+        <label>Size:* </label>
+        <select class="size">
+          <option>Select size</option>
+          <option>?</option>
+          <option>??</option>
+          <option>???</option>
+          <option>????</option>
+        </select>
+        <a href="#">Size chart</a>
       </template>
 
       <div id="timeAndDate">
@@ -348,7 +231,7 @@
     <div id="payPage" class="none">
       <br>
       <div id="payRight">
-        <label>Email:</label>
+        <label>Email:*</label>
         <input type="email">
         <p class="moreInputInfo">Required to sign waiver and manage your reservation. We will never share your email with anyone else.</p>
         <br>
