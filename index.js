@@ -74,8 +74,12 @@ function makeMonth(indate, table, thisMonth=true) {
   let year = indate.getFullYear();
   checkLeapYear(year); //change number of days in February
   table.parentNode.getElementsByTagName('td')[0].textContent = months[indate.getMonth()] + ' ' + year;
-  let firstDay = Math.abs(indate.getDay() - (indate.getDate() % 7)); //get offset for the first day of the month
-  console.log(indate.getDay() + indate.getDate() % 7 + 1);
+
+  //I think this is working now
+  let firstOccurrence = (indate.getDate() % 7) === 0 ? 7 : indate.getDate() % 7; //get the date of the first occurrence of the day of the week this month - if it's the seventh or whatever, set it equal to seven instead of zero
+  let negDay = indate.getDay() - firstOccurrence + 1; //subtract that from the day of the week to get the day of the week of the first day
+  let firstDay = negDay < 0 ? negDay + 7 : negDay; //fix it if it's negative.
+
   let numDays = monthDays[indate.getMonth()]; //get the number of days for the current month
   let tempRow = table.insertRow(0); //insert the first row
   for (let i = 0; i < 7; i++) { //insert blank spaces for offset
