@@ -272,6 +272,12 @@ select {
   }
 }
 
+@media screen and (max-width: 320px) {
+  .showPrice {
+    font-size: .9em;
+  }
+}
+
 .none {
   display: none;
 }
