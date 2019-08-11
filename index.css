@@ -139,7 +139,7 @@ select {
   font-size: 30px;
   font-weight: bold;
   width: 100%;
-  background: rgb(74, 143, 255);
+/*   background: rgb(74, 143, 255); */
 }
 
 .month td {
