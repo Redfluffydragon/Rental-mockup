@@ -1,8 +1,7 @@
 /**
- * fix next button scrolling width on mobile
  * Don't reset rider info cards every time you navigate to the info screen
  * add actual date selection
- * add prices and half-day option
+ * add half-day option
  * link to big ring site? or support?
  * make & add size charts
  * Give cards IDs
@@ -33,6 +32,8 @@ const pages = [bikePage, infoPage, payPage];
 
 let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 let monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+const isMobile = (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1);
 
 //change the number of days in February for leap years
 function checkLeapYear(year) {
@@ -151,6 +152,7 @@ function selectedBikeCards() {
 }
 
 //assemble the rider info cards for each bike selected
+//use num to identify them?
 function assembleCard(bike, num) {
   let card = document.createElement('div');
   card.className = 'oneRider';
@@ -185,10 +187,18 @@ function assembleCard(bike, num) {
   bikeCards.appendChild(card);
 }
 
+let body = document.body,
+    html = document.documentElement;
+
+console.log(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 //change the width of the "next" button
 function nextbtnWidth() {
   let scroll = document.scrollingElement;
-  nextbtn.style.width = scroll.scrollHeight - scroll.scrollTop < scroll.clientHeight + 16 ? 'calc(40vw + 15px)' : '';
+  if (!isMobile)
+    nextbtn.style.width = scroll.scrollHeight - scroll.scrollTop < scroll.clientHeight + 16 ? 'calc(40vw + 15px)' : '';
+
+  else if (isMobile) 
+    nextbtn.style.width = (scroll.scrollTop + window.innerHeight) > scroll.scrollHeight - 20 ? 'calc(40vw + 15px)' : '';
 }
 
 //check if there's a bike selected
@@ -294,7 +304,7 @@ document.addEventListener('click', e => {
   }
   else if (e.target.closest('#showHeight')) { //to show height field - might have to change to class
     e.target.closest('#heightDiv').getElementsByClassName('heightIn')[0].classList.remove('none'); //have to make it select the right one
-    // document.getElementById('sizeReq').classList.add('none'); //hide asterisk on size?
+    e.target.closest('.oneRider').getElementsByClassName('sizeReq')[0].classList.add('none'); //hide asterisk on size?
     e.target.closest('#showHeight').classList.add('none');
   }
   else if (e.target.closest('#curMonth')) {
