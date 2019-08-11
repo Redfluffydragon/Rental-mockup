@@ -59,9 +59,17 @@ select {
   padding: 4px;
   display: inline-block;
   width: 30vw;
-  height: 60vmin;
+  /* height: 60vmin; */
   vertical-align: top;
   position: relative;
+}
+
+.bikediv h4 {
+  margin-bottom: 0;
+}
+
+.bikediv p {
+  margin-top: 7px;
 }
 
 .bikeimg {
@@ -69,6 +77,10 @@ select {
   max-width: 28vw;
   max-height: 31vh;
   margin: auto;
+}
+
+.showPrice {
+  font-weight: 450;
 }
 
 .bikebuttons {
