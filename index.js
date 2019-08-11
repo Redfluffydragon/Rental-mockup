@@ -7,17 +7,20 @@
  * make & add size charts
  * Give cards IDs
  * stack next and back buttons and make them full width for mobile?
+ * add option to hide height field again
+ * date checking - won't let them reserve a bike for a date if it's already out - something like "The bike you selected is not available on those date(s)"
  * https://docs.google.com/document/d/14S-1wbTMa63vxLuZx3-d4fP0cyHfL3N09GlYWPsnfi0/edit
 */
 
-const plusbtns = document.getElementsByClassName('plusbtn');
-const bikenums = document.getElementsByClassName('bikenum');
 const backbtn = document.getElementById('backbtn');
 const nextbtn = document.getElementById('nextbtn');
 
 const bikePage = document.getElementById('bikePage');
 const infoPage = document.getElementById('infoPage');
 const payPage = document.getElementById('payPage');
+
+const habitDiv = document.getElementById('habit');
+let bikeDivs = document.getElementsByClassName('bikediv');
 
 const bikeCards = document.getElementById('bikeCards');
 
@@ -31,6 +34,7 @@ const pages = [bikePage, infoPage, payPage];
 let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 let monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
+//change the number of days in February for leap years
 function checkLeapYear(year) {
   if (year % 4 === 0) {
     if (year % 100 === 0) {
@@ -70,6 +74,19 @@ let bikeNames = {
   f10: 'Pinarello F10'
 }
 
+//set heights of bikedivs based on the height of the Habit one
+function bikeDivHeight() {
+  let newHeight = '';
+  if (window.innerWidth > 749) {
+    habitDiv.style.height = '';
+    newHeight = habitDiv.offsetHeight + 30 + 'px';
+  }
+  for (let i = 0; i < bikeDivs.length; i++) {
+    bikeDivs[i].style.height = newHeight;
+  }
+}
+
+//generate the months to select dates from
 function makeMonth(indate, table, thisMonth=true) {
   let year = indate.getFullYear();
   checkLeapYear(year); //change number of days in February
@@ -109,7 +126,7 @@ function makeMonth(indate, table, thisMonth=true) {
   }
 }
 
-// go to the next page and 
+// go to the next page and maybe do stuff
 function newPage() {
   for (let i = 0; i < pages.length; i++) {
     pages[i].classList.add('none');
@@ -122,8 +139,9 @@ function newPage() {
   nextbtnWidth();
 }
 
+//check which bikes are selected
 function selectedBikeCards() {
-  bikeCards.innerHTML = ''; //figure out a better solution. Match curSelection against selectedBikes?4
+  bikeCards.innerHTML = ''; //figure out a better solution. Match curSelection against selectedBikes?
   let bikesList = Object.keys(selectedBikes);
   for (let i in bikesList) {
     for (let j = 0; j < selectedBikes[bikesList[i]]; j++) {
@@ -132,46 +150,43 @@ function selectedBikeCards() {
   }
 }
 
+//assemble the rider info cards for each bike selected
 function assembleCard(bike, num) {
   let card = document.createElement('div');
   card.className = 'oneRider';
 
-  let bikeName = document.createElement('span');
+  let bikeName = document.createElement('span'); //get the right bike name
   bikeName.className = 'riderBikeName';
   bikeName.textContent = bikeNames[bike];
   card.appendChild(bikeName);
 
-  let nameField = document.getElementById('nameIn').content.cloneNode(true);
+  let nameField = document.getElementById('nameIn').content.cloneNode(true); //rider name for all of them
   card.appendChild(nameField);
 
-  let sizeSelect = document.getElementById(bike + 'Size').content.cloneNode(true);
+  let sizeSelect = document.getElementById(bike + 'Size').content.cloneNode(true); //get the right size select element
   card.appendChild(sizeSelect);
 
-  let heightOption = document.getElementById('height').content.cloneNode(true); //maybe? have to get weight in there somehow
+  let heightOption = document.getElementById('height').content.cloneNode(true); //height for all of them
   card.appendChild(heightOption);
 
-  if (bike === 'habit') {
+  if (bike === 'habit') { //only habits get weight
     let weightField = document.getElementById('weight').content.cloneNode(true);
     card.appendChild(weightField);
   }
 
-  if (bike !== 'venezia') {
+  if (bike !== 'venezia') { //venezias only get the pedals that come on them
     let pedalSelect = document.getElementById('pedals').content.cloneNode(true);
     card.appendChild(pedalSelect);
   }
 
-  let HFKSH = document.getElementById('HFKSH').content.cloneNode(true);
+  let HFKSH = document.getElementById('HFKSH').content.cloneNode(true); //helmet, flat kit, seat height for all of them
   card.appendChild(HFKSH);
 
   bikeCards.appendChild(card);
-  //bike name (diff)
-  //name field (same)
-  //size, model, weight (diff)
-  //pedals (except venezia)
-  //helmet, flat kit, seat height (same)
 }
 
-function nextbtnWidth() { //change the width of the "next" button
+//change the width of the "next" button
+function nextbtnWidth() {
   let scroll = document.scrollingElement;
   nextbtn.style.width = scroll.scrollHeight - scroll.scrollTop < scroll.clientHeight + 16 ? 'calc(40vw + 15px)' : '';
 }
@@ -241,6 +256,11 @@ window.addEventListener('load', () => {
   if (page > 0) {
     backbtn.classList.remove('none');
   }
+  bikeDivHeight();
+}, false);
+
+window.addEventListener('resize', () => {
+  bikeDivHeight();
 }, false);
 
 window.addEventListener('keydown', e => {
