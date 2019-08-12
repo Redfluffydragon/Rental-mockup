@@ -157,7 +157,7 @@ function assembleCard(bike, num) {
   let card = document.createElement('div');
   card.className = 'oneRider';
 
-  let bikeName = document.createElement('span'); //get the right bike name
+  let bikeName = document.createElement('h3'); //get the right bike name
   bikeName.className = 'riderBikeName';
   bikeName.textContent = bikeNames[bike];
   card.appendChild(bikeName);
@@ -187,10 +187,6 @@ function assembleCard(bike, num) {
   bikeCards.appendChild(card);
 }
 
-let body = document.body,
-    html = document.documentElement;
-
-console.log(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 //change the width of the "next" button
 function nextbtnWidth() {
   let scroll = document.scrollingElement;
@@ -310,7 +306,10 @@ document.addEventListener('click', e => {
   else if (e.target.closest('#curMonth')) {
     e.target.classList.toggle('blue');
   }
+  else if (e.target.matches('.showChart')) {
+    e.preventDefault();
+    e.target.closest('.oneRider').getElementsByClassName('sizeChart')[0].classList.toggle('none');
+  }
 }, false);
 
 document.addEventListener('scroll', nextbtnWidth, false);
-
