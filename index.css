@@ -59,7 +59,6 @@ select {
   padding: 4px;
   display: inline-block;
   width: 30vw;
-  /* height: 60vmin; */
   vertical-align: top;
   position: relative;
 }
@@ -132,14 +131,35 @@ select {
   padding: 8px;
   padding-left: 14px;
   border-radius: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 13px;
 }
 
 .riderBikeName {
   font-size: 30px;
   font-weight: bold;
   width: 100%;
-/*   background: rgb(74, 143, 255); */
+  margin: 0;
+  margin-left: -14px;
+  margin-top: -8px;
+  padding-left: 14px;
+  padding-right: 8px;
+  padding-top: 6px;
+  padding-bottom: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: 1px solid black;
+  background: rgba(0, 98, 255, 0.5);
+}
+
+.sizeChart table {
+  border-collapse: collapse;
+  margin-top: 4px;
+}
+
+.sizeChart td {
+  border: 1px solid black;
+  text-align: center;
+  padding: 3px;
 }
 
 .month td {
