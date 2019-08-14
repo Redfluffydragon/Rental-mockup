@@ -3,13 +3,15 @@
  * add actual date selection
  * add half-day option
  * link to big ring site? or support?
- * make & add size charts
+ * make & add size charts - dyodo and f10
  * Give cards IDs
  * stack next and back buttons and make them full width for mobile?
  * add option to hide height field again
  * date checking - won't let them reserve a bike for a date if it's already out - something like "The bike you selected is not available on those date(s)"
  * https://docs.google.com/document/d/14S-1wbTMa63vxLuZx3-d4fP0cyHfL3N09GlYWPsnfi0/edit
 */
+
+"use strict";
 
 const backbtn = document.getElementById('backbtn');
 const nextbtn = document.getElementById('nextbtn');
@@ -22,16 +24,23 @@ const habitDiv = document.getElementById('habit');
 let bikeDivs = document.getElementsByClassName('bikediv');
 
 const bikeCards = document.getElementById('bikeCards');
+const halfDayCheck = document.getElementById('halfDayCheck');
 
 const curMonth = document.getElementById('curMonth');
 const nextMonth = document.getElementById('nextMonth');
 
 let page = 0;
-let firstTime = true; //? maybe ?
 const pages = [bikePage, infoPage, payPage];
 
 let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 let monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+let dateSelect = false;
+let dates = [];
+let rentDates = {
+  start: 0,
+  end: 0,
+}
 
 const isMobile = (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1);
 
@@ -87,6 +96,29 @@ function bikeDivHeight() {
   }
 }
 
+//check month dates: gray if already past, blue if today.
+function checkDate(date, indate, thisMonth, tempCell) {
+  if (thisMonth) {
+    if (date < indate.getDate()) {
+      tempCell.classList.add('gray');
+      tempCell.setAttribute('doneGone', true);
+    }
+    else if (date === indate.getDate()) {
+      tempCell.classList.add('blue');
+      tempCell.setAttribute('doneGone', false);
+      rentDates.start = date; //set the start point to today
+    }
+    else {
+      tempCell.setAttribute('doneGone', false);
+    }
+  }
+  else {
+    tempCell.setAttribute('doneGone', false);
+  }
+  tempCell.textContent = date;
+  tempCell.classList.add('monthDay');
+}
+
 //generate the months to select dates from
 function makeMonth(indate, table, thisMonth=true) {
   let year = indate.getFullYear();
@@ -101,33 +133,29 @@ function makeMonth(indate, table, thisMonth=true) {
   let numDays = monthDays[indate.getMonth()]; //get the number of days for the current month
   let tempRow = table.insertRow(0); //insert the first row
   for (let i = 0; i < 7; i++) { //insert blank spaces for offset
-    let tempCell = tempRow.insertCell(i);
-    if (i >= firstDay) {
-      let date = i + 1 - firstDay
-      tempCell.textContent = date;
-      tempCell.classList.add('monthDay');
-      if (date === indate.getDate() && thisMonth) {
-        tempCell.classList.add('blue');
-      }
+    let tempCell = tempRow.insertCell(i); //make a new cell
+    if (i >= firstDay) { //only fill the cell if the month actually goes there
+      let date = i + 1 - firstDay; //+1 because zero indexed, plus the firstday offset
+      checkDate(date, indate, thisMonth, tempCell);
+      dates.push(tempCell);
     }
   }
-  for (let i = 1; i < Math.ceil(numDays/7); i++) { //start at one to do the rest of the rows
+  for (let i = 1; i < Math.ceil(numDays/7); i++) { //start at one to do the rest of the rows/weeks
     tempRow = table.insertRow(i);
     for (let j = 0; j < 7; j++) {
       let tempCell = tempRow.insertCell(j);
-      let date = (j+1)+(i*7)-firstDay;
-      if (date === indate.getDate() && thisMonth) {
-        tempCell.classList.add('blue');
-      }
-      if (date > numDays) break;
 
-      tempCell.textContent = date;
-      tempCell.classList.add('monthDay');
+      let date = (j+1)+(i*7)-firstDay; //date for the rest of the weeks
+      
+      checkDate(date, indate, thisMonth, tempCell);
+      dates.push(tempCell);
+      
+      if (date >= numDays) break; //>= 'cause starting at zero?
     }
   }
 }
 
-// go to the next page and maybe do stuff
+// go to the next page and do stuff
 function newPage() {
   for (let i = 0; i < pages.length; i++) {
     pages[i].classList.add('none');
@@ -252,6 +280,11 @@ function goNextPage() {
   newPage();
 }
 
+//switch to a half day ui and back
+halfDayCheck.addEventListener('input', () => {
+  nextMonth.closest('.month').classList.toggle('none');
+}, false);
+
 //generate this month and the next
 window.addEventListener('load', () => {
   let getDate = new Date();
@@ -267,6 +300,7 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', () => {
   bikeDivHeight();
+  nextbtnWidth();
 }, false);
 
 window.addEventListener('keydown', e => {
@@ -298,17 +332,71 @@ document.addEventListener('click', e => {
     if (page === 0) backbtn.classList.add('none');
     newPage();
   }
-  else if (e.target.closest('#showHeight')) { //to show height field - might have to change to class
-    e.target.closest('#heightDiv').getElementsByClassName('heightIn')[0].classList.remove('none'); //have to make it select the right one
-    e.target.closest('.oneRider').getElementsByClassName('sizeReq')[0].classList.add('none'); //hide asterisk on size?
-    e.target.closest('#showHeight').classList.add('none');
+  else if (e.target.closest('.showHeight')) { //to show height field
+    e.target.closest('.heightDiv').getElementsByClassName('heightIn')[0].classList.remove('none');
+    e.target.closest('.oneRider').getElementsByClassName('sizeReq')[0].classList.add('none'); //hide asterisk on size
+    e.target.closest('.showHeight').classList.add('none');
   }
-  else if (e.target.closest('#curMonth')) {
-    e.target.classList.toggle('blue');
+  else if (e.target.matches('.monthDay') && !e.target.classList.contains('gray')) {
+    if (dateSelect || parseInt(e.target.textContent) < rentDates.start) {
+      for (let i = 0; i < dates.length; i++) {
+        dates[i].classList.remove('blue');
+        dates[i].classList.remove('lightblue');
+      }
+      e.target.classList.add('blue');
+      rentDates.start = parseInt(e.target.textContent);
+      dateSelect = false;
+    }
+    else if (!dateSelect) {
+      for (let i = rentDates.start; i < e.target.textContent-1; i++) {
+        dates[i].classList.remove('blue');
+        dates[i].classList.add('lightblue');
+      }
+      e.target.classList.remove('lightblue');
+      e.target.classList.add('blue');
+      for (let i = parseInt(e.target.textContent); i < dates.length; i++) {
+        if (!dates[i].classList.contains('lightblue')) {
+          dates[i].classList.remove('blue');
+          break;
+        }
+        dates[i].classList.remove('lightblue');
+      }
+      dateSelect = true;
+    }
   }
   else if (e.target.matches('.showChart')) {
     e.preventDefault();
     e.target.closest('.oneRider').getElementsByClassName('sizeChart')[0].classList.toggle('none');
+  }
+}, false);
+
+document.addEventListener('touchstart', e => {
+  if (Touch.target.matches('.monthDay') && !Touch.target.classList.contains('gray')) {
+    if (dateSelect || parseInt(e.target.textContent) < rentDates.start) {
+      for (let i = 0; i < dates.length; i++) {
+        dates[i].classList.remove('blue');
+        dates[i].classList.remove('lightblue');
+      }
+      Touch.target.classList.add('blue');
+      rentDates.start = parseInt(Touch.target.textContent);
+      dateSelect = false;
+    }
+    else if (!dateSelect) {
+      for (let i = rentDates.start; i < Touch.target.textContent-1; i++) {
+        dates[i].classList.remove('blue');
+        dates[i].classList.add('lightblue');
+      }
+      Touch.target.classList.remove('lightblue');
+      Touch.target.classList.add('blue');
+      for (let i = parseInt(Touch.target.textContent); i < dates.length; i++) {
+        if (!dates[i].classList.contains('lightblue')) {
+          dates[i].classList.remove('blue');
+          break;
+        }
+        dates[i].classList.remove('lightblue');
+      }
+      dateSelect = true;
+    }
   }
 }, false);
 
