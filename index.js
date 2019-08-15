@@ -22,7 +22,6 @@ const habitDiv = document.getElementById('habit');
 let bikeDivs = document.getElementsByClassName('bikediv');
 
 const bikeCards = document.getElementById('bikeCards');
-const halfDayCheck = document.getElementById('halfDayCheck');
 
 const curMonth = document.getElementById('curMonth');
 const nextMonth = document.getElementById('nextMonth');
@@ -88,10 +87,6 @@ function bikeDivHeight() {
   }
 }
 
-function checkDate() {
-
-}
-
 //generate the months to select dates from
 function makeMonth(indate, table, thisMonth=true) {
   let year = indate.getFullYear();
@@ -107,40 +102,22 @@ function makeMonth(indate, table, thisMonth=true) {
   let tempRow = table.insertRow(0); //insert the first row
   for (let i = 0; i < 7; i++) { //insert blank spaces for offset
     let tempCell = tempRow.insertCell(i);
-    
     if (i >= firstDay) {
       let date = i + 1 - firstDay
       tempCell.textContent = date;
       tempCell.classList.add('monthDay');
-      if (thisMonth && date < indate.getDate()) {
-        tempCell.classList.add('gray');
-        tempCell.setAttribute('doneGone', true);
-      }
-      else if (date === indate.getDate() && thisMonth) {
+      if (date === indate.getDate() && thisMonth) {
         tempCell.classList.add('blue');
-        tempCell.setAttribute('doneGone', false);
-      }
-      else {
-        tempCell.setAttribute('doneGone', false);
       }
     }
-
   }
   for (let i = 1; i < Math.ceil(numDays/7); i++) { //start at one to do the rest of the rows
     tempRow = table.insertRow(i);
     for (let j = 0; j < 7; j++) {
       let tempCell = tempRow.insertCell(j);
       let date = (j+1)+(i*7)-firstDay;
-      if (thisMonth && date < indate.getDate()) {
-        tempCell.classList.add('gray');
-        tempCell.setAttribute('doneGone', true);
-      }
-      else if (date === indate.getDate() && thisMonth) {
+      if (date === indate.getDate() && thisMonth) {
         tempCell.classList.add('blue');
-        tempCell.setAttribute('doneGone', false);
-      }
-      else {
-        tempCell.setAttribute('doneGone', false);
       }
       if (date > numDays) break;
 
@@ -290,7 +267,6 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', () => {
   bikeDivHeight();
-  nextbtnWidth();
 }, false);
 
 window.addEventListener('keydown', e => {
@@ -298,10 +274,6 @@ window.addEventListener('keydown', e => {
     e.preventDefault();
     goNextPage();
   }
-}, false);
-
-halfDayCheck.addEventListener('input', () => {
-  nextMonth.closest('.month').classList.toggle('none');
 }, false);
 
 document.addEventListener('click', e => {
@@ -331,8 +303,7 @@ document.addEventListener('click', e => {
     e.target.closest('.oneRider').getElementsByClassName('sizeReq')[0].classList.add('none'); //hide asterisk on size?
     e.target.closest('#showHeight').classList.add('none');
   }
-  else if (e.target.matches('.monthDay') && !e.target.classList.contains('gray')) {
-    // console.log(e.target.getAttribute('doneGone') == false)
+  else if (e.target.closest('#curMonth')) {
     e.target.classList.toggle('blue');
   }
   else if (e.target.matches('.showChart')) {
