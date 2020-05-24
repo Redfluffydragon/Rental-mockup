@@ -1,7 +1,6 @@
 /**
  * Don't reset rider info cards every time you navigate to the info screen
- * add actual date selection
- * add half-day option
+ * fix date selection
  * link to big ring site? or support?
  * make & add size charts - dyodo and f10
  * Give cards IDs
@@ -28,6 +27,8 @@ const halfDayCheck = document.getElementById('halfDayCheck');
 
 const curMonth = document.getElementById('curMonth');
 const nextMonth = document.getElementById('nextMonth');
+
+const hours = document.getElementById('hours');
 
 let page = 0;
 const pages = [bikePage, infoPage, payPage];
@@ -103,13 +104,13 @@ function checkDate(date, indate, thisMonth, tempCell) {
       tempCell.classList.add('gray');
       tempCell.setAttribute('doneGone', true);
     }
-    else if (date === indate.getDate()) {
-      tempCell.classList.add('blue');
-      tempCell.setAttribute('doneGone', false);
-      rentDates.start = date; //set the start point to today
-    }
     else {
       tempCell.setAttribute('doneGone', false);
+
+      if (date === indate.getDate()) {
+        tempCell.classList.add('blue');
+        rentDates.start = date; //set the start point to today
+      }
     }
   }
   else {
@@ -117,6 +118,12 @@ function checkDate(date, indate, thisMonth, tempCell) {
   }
   tempCell.textContent = date;
   tempCell.classList.add('monthDay');
+  dates.push({
+    date: date,
+    year: indate.getFullYear(),
+    month: indate.getMonth(),
+    cell: tempCell,
+  });
 }
 
 //generate the months to select dates from
@@ -135,9 +142,10 @@ function makeMonth(indate, table, thisMonth=true) {
   for (let i = 0; i < 7; i++) { //insert blank spaces for offset
     let tempCell = tempRow.insertCell(i); //make a new cell
     if (i >= firstDay) { //only fill the cell if the month actually goes there
+
       let date = i + 1 - firstDay; //+1 because zero indexed, plus the firstday offset
+
       checkDate(date, indate, thisMonth, tempCell);
-      dates.push(tempCell);
     }
   }
   for (let i = 1; i < Math.ceil(numDays/7); i++) { //start at one to do the rest of the rows/weeks
@@ -148,9 +156,8 @@ function makeMonth(indate, table, thisMonth=true) {
       let date = (j+1)+(i*7)-firstDay; //date for the rest of the weeks
       
       checkDate(date, indate, thisMonth, tempCell);
-      dates.push(tempCell);
       
-      if (date >= numDays) break; //>= 'cause starting at zero?
+      if (date >= numDays) break; //>= 'cause starting at zero? I'm not sure
     }
   }
 }
@@ -340,8 +347,8 @@ document.addEventListener('click', e => {
   else if (e.target.matches('.monthDay') && !e.target.classList.contains('gray')) {
     if (dateSelect || parseInt(e.target.textContent) < rentDates.start) {
       for (let i = 0; i < dates.length; i++) {
-        dates[i].classList.remove('blue');
-        dates[i].classList.remove('lightblue');
+        dates[i].cell.classList.remove('blue');
+        dates[i].cell.classList.remove('lightblue');
       }
       e.target.classList.add('blue');
       rentDates.start = parseInt(e.target.textContent);
@@ -349,17 +356,17 @@ document.addEventListener('click', e => {
     }
     else if (!dateSelect) {
       for (let i = rentDates.start; i < e.target.textContent-1; i++) {
-        dates[i].classList.remove('blue');
-        dates[i].classList.add('lightblue');
+        dates[i].cell.classList.remove('blue');
+        dates[i].cell.classList.add('lightblue');
       }
       e.target.classList.remove('lightblue');
       e.target.classList.add('blue');
       for (let i = parseInt(e.target.textContent); i < dates.length; i++) {
-        if (!dates[i].classList.contains('lightblue')) {
-          dates[i].classList.remove('blue');
+        if (!dates[i].cell.classList.contains('lightblue')) {
+          dates[i].cell.classList.remove('blue');
           break;
         }
-        dates[i].classList.remove('lightblue');
+        dates[i].cell.classList.remove('lightblue');
       }
       dateSelect = true;
     }
@@ -367,6 +374,11 @@ document.addEventListener('click', e => {
   else if (e.target.matches('.showChart')) {
     e.preventDefault();
     e.target.closest('.oneRider').getElementsByClassName('sizeChart')[0].classList.toggle('none');
+  }
+  else if (e.target.matches('#showHours')) {
+    e.preventDefault();
+    hours.classList.toggle('none');
+    hours.classList.toggle('inlineBlock');
   }
 }, false);
 
