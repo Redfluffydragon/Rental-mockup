@@ -182,6 +182,17 @@ select {
   margin-bottom: 5px;
 }
 
+#hours {
+  margin-top: 5px;
+  border-collapse: collapse;
+}
+
+#hours td {
+  border: 1px solid black;
+  text-align: center;
+  padding: 3px;
+}
+
 #payRight {
   width: 80vw;
   position: absolute;
@@ -301,6 +312,10 @@ select {
 
 .none {
   display: none;
+}
+
+.inlineBlock {
+  display: inline-block;
 }
 
 .blue {
